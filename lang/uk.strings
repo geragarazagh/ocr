@@ -1,0 +1,17 @@
+"Shortcut" = "Скорочення";
+"Press a shortcut" = "Натисніть скорочення";
+"None" = "Немає";
+"Needs ⌘, ⌥ or ⌃" = "Потрібна ⌘, ⌥ або ⌃";
+"Conflicts with macOS" = "Конфліктує з macOS";
+"This shortcut can’t be used" = "Це скорочення недоступне";
+"Open at Login" = "Відкривати під час входу в систему";
+"Herman Harazha" = "Герман Гаража";
+"GitHub" = "Гітхаб";
+"Quit" = "Завершити";
+"Copy" = "Скопіювати";
+"OCR needs screen access" = "OCR потрібен доступ до екрана";
+"Privacy & Security > Screen & System Audio Recording" = "Приватність і безпека > Записування системного звуку й екрана";
+"Open System Settings" = "Відкрити Системні параметри";
+"Cancel" = "Скасувати";
+"OCR: self-test" = "OCR: самоперевірка";
+"OCR: recognition failed" = "OCR: помилка розпізнавання";

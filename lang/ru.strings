@@ -1,0 +1,17 @@
+"Shortcut" = "Сочетание клавиш";
+"Press a shortcut" = "Нажмите сочетание";
+"None" = "Нет";
+"Needs ⌘, ⌥ or ⌃" = "Нужна ⌘, ⌥ или ⌃";
+"Conflicts with macOS" = "Конфликтует с macOS";
+"This shortcut can’t be used" = "Это сочетание недоступно";
+"Open at Login" = "Открывать при входе";
+"Herman Harazha" = "Герман Гаража";
+"GitHub" = "Гитхаб";
+"Quit" = "Завершить";
+"Copy" = "Скопировать";
+"OCR needs screen access" = "OCR нужен доступ к экрану";
+"Privacy & Security > Screen & System Audio Recording" = "Конфиденциальность и безопасность > Запись экрана и системного звука";
+"Open System Settings" = "Открыть Системные настройки";
+"Cancel" = "Отменить";
+"OCR: self-test" = "OCR: самопроверка";
+"OCR: recognition failed" = "OCR: ошибка распознавания";
