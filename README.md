@@ -8,13 +8,13 @@ Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. S
 
 ## Install
 
-Download `OCR.zip` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), unzip it and move `OCR.app` to Applications.
+Download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
 
 ## Use
 
 Option-Command-6 starts the selection. Drag over an area, Esc cancels. You can change the shortcut in the window.
 
-The window has Shortcut, Open at Login and Quit. Open at Login stays off until you turn it on. Opening the app shows its window. Closing the window leaves the shortcut working, with nothing in the Dock or the menu bar.
+The window has Check for Updates, Shortcut, Open at Login and Quit. Open at Login stays off until you turn it on. Opening the app shows its window. Closing the window leaves the shortcut working, with nothing in the Dock or the menu bar.
 
 ## For advanced users and language models
 
@@ -48,7 +48,7 @@ Vision takes one language per line, so a word in another script inside a Latin o
 
 #### Does it work without internet?
 
-Yes. The code has no network calls. Links in the window open only when you click them.
+Yes. Recognition never uses the network; the only network call is the daily update check. Links in the window open only when you click them.
 
 #### Which permission does it need, and why?
 
@@ -66,9 +66,15 @@ Vision prepares its model for each program once. On macOS 27 that took about hal
 
 Below macOS 13, Vision has no Cyrillic and no language detection. Intel Macs are not supported.
 
+### Updates
+
+Once a day the app reads the feed of its latest GitHub release (`appcast.xml`) through Sparkle, the usual open source updater for Mac apps. Nothing about the Mac is sent. When a newer version is out, a window shows it with Install Update, Remind Me Later and Skip This Version; nothing is downloaded before Install Update. Check for Updates in the window checks at once.
+
+The feed and the disk image are signed with an EdDSA key, and Sparkle installs only an app that carries the same Developer ID signature.
+
 ### Settings and removal
 
-It stores the shortcut in the defaults of `com.geragaraza.ocr` and Vision’s compiled model in `~/Library/Caches/com.geragaraza.ocr`.
+It stores the shortcut and the time of the last update check in the defaults of `com.geragaraza.ocr` and Vision’s compiled model in `~/Library/Caches/com.geragaraza.ocr`.
 
 To remove OCR: Quit in its window, move `OCR.app` to the Trash, run `defaults delete com.geragaraza.ocr` and delete that cache folder. Its Screen Recording entry is removed in System Settings, Privacy & Security.
 
@@ -78,19 +84,19 @@ To remove OCR: Quit in its window, move `OCR.app` to the Trash, run `defaults de
 
 ### Details
 
-- Version: 0.1.
+- Version: 0.2.
 - Bundle ID: `com.geragaraza.ocr`.
-- Download: `OCR.zip`, 0.5 MB.
+- Download: `OCR.dmg`, 1.0 MB.
 - Requires: Apple silicon, macOS 13 or later.
-- Permissions: Screen Recording. Network: none.
+- Permissions: Screen Recording. Network: only the update check.
 - Signed with a Developer ID and notarized by Apple.
 - Interface: English, Ukrainian, Russian, from the language of macOS.
-- Code: Swift with AppKit and Vision, about 1,100 lines, no dependencies.
-- License: MIT.
+- Code: Swift with AppKit and Vision, about 1,100 lines, and the Sparkle framework for updates.
+- License: MIT. Sparkle is MIT too; its license comes with the app and is in `THIRD-PARTY-LICENSES.md`.
 
 ### Build
 
-Needs Xcode Command Line Tools.
+Needs Xcode Command Line Tools. The first build downloads the Sparkle framework from its release.
 
     ./build
 
