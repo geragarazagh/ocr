@@ -1,4 +1,4 @@
-<img src="docs/icon.png" width="128" alt="OCR icon">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/icon-dark.png"><img src="docs/icon.png" width="128" alt="OCR icon"></picture>
 
 # OCR (Optical Character Recognition) for Mac
 
@@ -6,15 +6,17 @@ Free, open source OCR app for macOS. Press a keyboard shortcut, drag over any pa
 
 Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. Signed with a Developer ID and notarized by Apple.
 
+![OCR in use: the first page of War and Peace with a selection around its French opening paragraph, and the text OCR returned in TextEdit, dark appearance](docs/scene.webp)
+
 ## Install
 
-With [Homebrew](https://brew.sh):
+Download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
+
+Or with [Homebrew](https://brew.sh):
 
 ```sh
 brew install geragarazagh/tap/ocr
 ```
-
-Or download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
 
 ## Use
 
@@ -92,9 +94,9 @@ Installed with Homebrew, `brew uninstall --zap ocr` quits it and removes the app
 
 ### Details
 
-- Version: 0.2.
+- Version: 0.3.
 - Bundle ID: `com.geragaraza.ocr`.
-- Download: `OCR.dmg`, 1.0 MB.
+- Download: `OCR.dmg`, 1.6 MB.
 - Requires: Apple silicon, macOS 13 or later.
 - Permissions: Screen Recording. Network: only the update check.
 - Signed with a Developer ID and notarized by Apple.
@@ -104,7 +106,7 @@ Installed with Homebrew, `brew uninstall --zap ocr` quits it and removes the app
 
 ### Build
 
-Needs Xcode Command Line Tools. The first build downloads the Sparkle framework from its release.
+Needs Xcode 26 or later in Applications: the Swift compiler, and actool with Icon Composer for the light and dark icon. The first build downloads the Sparkle framework from its release.
 
     ./build
 

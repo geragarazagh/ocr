@@ -98,6 +98,20 @@ func report(_ title: String, _ details: String) {
     }
 }
 
+// The app's own icon, as Finder shows it now: on macOS 26+ the icon follows the theme (Assets.car), so it is fetched
+// again whenever the window's appearance changes; NSApp.applicationIconImage keeps the one from launch.
+final class AppIconView: NSImageView {
+    override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); refresh() }
+    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); refresh() }
+    // NSWorkspace hands the icon over at 32 x 32 pt and NSImageView only scales down, so it would show at half the
+    // view's size: the image is given the view's size (the icon is multi-resolution, so it stays sharp).
+    private func refresh() {
+        let icon = NSWorkspace.shared.icon(forFile: Bundle.main.bundlePath)
+        icon.size = bounds.size
+        image = icon
+    }
+}
+
 @MainActor final class AppWindow: NSObject, NSWindowDelegate {
     let name: String
     let github: String
@@ -176,8 +190,7 @@ func report(_ title: String, _ details: String) {
             return l
         }
 
-        let icon = NSImageView(frame: NSRect(x: (W - 64) / 2, y: 216 + top, width: 64, height: 64))
-        icon.image = NSApp.applicationIconImage
+        let icon = AppIconView(frame: NSRect(x: (W - 64) / 2, y: 216 + top, width: 64, height: 64))
         v.addSubview(icon)
         _ = text(name, .boldSystemFont(ofSize: 15), .labelColor, NSRect(x: M, y: 190 + top, width: W - 2 * M, height: 20), .center)
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
