@@ -8,7 +8,13 @@ Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. S
 
 ## Install
 
-Download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
+With [Homebrew](https://brew.sh):
+
+```sh
+brew install geragarazagh/tap/ocr
+```
+
+Or download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
 
 ## Use
 
@@ -77,6 +83,8 @@ The feed and the disk image are signed with an EdDSA key, and Sparkle installs o
 It stores the shortcut and the time of the last update check in the defaults of `com.geragaraza.ocr` and Vision’s compiled model in `~/Library/Caches/com.geragaraza.ocr`.
 
 To remove OCR: Quit in its window, move `OCR.app` to the Trash, run `defaults delete com.geragaraza.ocr` and delete that cache folder. Its Screen Recording entry is removed in System Settings, Privacy & Security.
+
+Installed with Homebrew, `brew uninstall --zap ocr` quits it and removes the app, its settings and the cache; the Screen Recording entry stays for System Settings.
 
 ### From Terminal
 
