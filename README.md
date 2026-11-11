@@ -20,15 +20,13 @@ brew install geragarazagh/tap/ocr
 
 ## Use
 
-Option-Command-6 starts the selection. Drag over an area, Esc cancels. You can change the shortcut in the window.
+Option-Command-6 starts the selection. Drag over an area, Esc cancels. The shortcut is changed in the window.
 
-The window has Check for Updates, Shortcut, Open at Login and Quit. Open at Login stays off until you turn it on. Opening the app shows its window. Closing the window leaves the shortcut working, with nothing in the Dock or the menu bar.
+The window has Check for Updates, Shortcut, Open at Login and Quit. Open at Login stays off until it is turned on. Opening the app shows its window. Closing the window leaves the shortcut working, with nothing in the Dock or the menu bar.
 
 ## For advanced users and language models
 
-It reads text you can’t select: pictures, scanned PDFs, video frames, app windows.
-
-OCR has no recognition engine of its own. It joins two things macOS already has: the screen selection of `screencapture` and Apple’s Vision. Recognition runs on the Mac, offline. No history, no logs.
+OCR reads text that can’t be selected: pictures, scanned PDFs, video frames, app windows. It has no recognition engine of its own and joins two things macOS already has: the screen selection of `screencapture` and Apple’s Vision. Recognition runs on the Mac, offline. No history, no logs.
 
 ### How it works
 
@@ -42,7 +40,7 @@ OCR has no recognition engine of its own. It joins two things macOS already has:
 
 ### Languages
 
-The languages are the ones Apple’s Vision has on your macOS, read when the app runs. The app keeps no list of its own, so what Apple adds works without a new version, and an older macOS simply has fewer. You don’t pick a language: Vision detects it line by line.
+The languages are the ones Apple’s Vision has on the installed macOS, read when the app runs. The app keeps no list of its own, so what Apple adds works without a new version, and an older macOS simply has fewer. There is no language to pick: Vision detects it line by line.
 
 Measured: 14 on macOS 13.7, 33 on macOS 27.2. The number depends on the macOS. Other versions were not counted.
 
@@ -56,11 +54,11 @@ Vision takes one language per line, so a word in another script inside a Latin o
 
 #### Does it work without internet?
 
-Yes. Recognition never uses the network; the only network call is the daily update check. Links in the window open only when you click them.
+Yes. Recognition never uses the network; the only network call is the daily update check. Links in the window open only on a click.
 
 #### Which permission does it need, and why?
 
-Screen Recording, to read the area you select. macOS asks at the first launch. Without it, every press shows the same alert with a button to System Settings.
+Screen Recording, to read the selected area. macOS asks at the first launch. Without it, every press shows the same alert with a button to System Settings.
 
 #### How is it different from Live Text in macOS?
 
@@ -76,7 +74,7 @@ Below macOS 13, Vision has no Cyrillic and no language detection. Intel Macs are
 
 ### Updates
 
-Once a day the app reads the feed of its latest GitHub release (`appcast.xml`) through Sparkle, the usual open source updater for Mac apps. Nothing about the Mac is sent. When a newer version is out, a window shows it with Install Update, Remind Me Later and Skip This Version; nothing is downloaded before Install Update. Check for Updates in the window checks at once.
+Once a day the app reads the feed of its latest GitHub release (`appcast.xml`) through Sparkle. Nothing about the Mac is sent. When a newer version is out, a window shows it with Install Update, Remind Me Later and Skip This Version; nothing is downloaded before Install Update. Check for Updates in the window checks at once.
 
 The feed and the disk image are signed with an EdDSA key, and Sparkle installs only an app that carries the same Developer ID signature.
 
