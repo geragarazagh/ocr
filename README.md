@@ -10,7 +10,7 @@ Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. S
 
 ## Install
 
-Download `OCR.dmg` from [Releases](https://github.com/geragarazagh/ocr/releases/latest), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
+**Mac** (Apple silicon, macOS 13 or later): download [`OCR.dmg`](https://github.com/geragarazagh/ocr/releases/latest/download/OCR.dmg) (1.6 MB), open it and drag `OCR.app` to Applications. Later versions arrive through Check for Updates.
 
 Or with [Homebrew](https://brew.sh):
 
