@@ -84,13 +84,29 @@ The feed and the disk image are signed with an EdDSA key, and Sparkle installs o
 
 It stores the shortcut and the time of the last update check in the defaults of `com.geragaraza.ocr` and Vision’s compiled model in `~/Library/Caches/com.geragaraza.ocr`.
 
-To remove OCR: Quit in its window, move `OCR.app` to the Trash, run `defaults delete com.geragaraza.ocr` and delete that cache folder. Its Screen Recording entry is removed in System Settings, Privacy & Security.
+To remove OCR: Quit in its window, move `OCR.app` to the Trash, delete that cache folder and clear its settings with this command:
 
-Installed with Homebrew, `brew uninstall --zap ocr` quits it and removes the app, its settings and the cache; the Screen Recording entry stays for System Settings.
+```sh
+defaults delete com.geragaraza.ocr
+```
+
+Installed with Homebrew, this command quits it and removes the app, its settings and the cache:
+
+```sh
+brew uninstall --zap ocr
+```
+
+Either way, its Screen Recording entry is removed in System Settings, Privacy & Security.
 
 ### From Terminal
 
-`/Applications/OCR.app/Contents/MacOS/OCR --file a.png b.png` prints the text of pictures instead of copying it. `--selftest` runs the app’s own check.
+This command prints the text of pictures instead of copying it:
+
+```sh
+/Applications/OCR.app/Contents/MacOS/OCR --file a.png b.png
+```
+
+`--selftest` runs the app’s own check.
 
 ### Details
 
