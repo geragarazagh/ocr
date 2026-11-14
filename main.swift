@@ -1,9 +1,10 @@
 // OCR: a hot key -> Apple's own selection crosshair -> text (or, in an area with no text, a QR code's payload) to the
 // clipboard.
 // Apple parts only: /usr/sbin/screencapture for the selection, Vision for recognition.
-// No network, no logs. The only things it keeps are the chosen hot key and Vision's model cache.
+// No logs; the only network call is Sparkle's update check (updates.swift), which asks before installing anything.
+// The only things it keeps are the chosen hot key and Vision's model cache.
 //
-// Self-test / test on files (prints instead of copying):
+// Self-test / test on files (prints instead of copying; --file from a terminal only):
 //   OCR.app/Contents/MacOS/OCR --selftest
 //   OCR.app/Contents/MacOS/OCR --file a.png b.png
 //
@@ -621,7 +622,28 @@ struct Message: Error, CustomStringConvertible { let description: String }
 
 startInBackgroundIfAtLogin()
 
+// True when macOS counts this process as its own responsible program, so its permissions are the app's own: launched as
+// an app (`open -n -a OCR --args …`), as a launchd job, or with responsibility disclaimed. Run from Terminal, the
+// responsible program is Terminal and its permissions apply. The lookup is libsystem's
+// responsibility_get_pid_responsible_for_pid (in no header, present since macOS 10.14); without it, a parent of launchd
+// counts as the same. STT's cli.swift, security pass 2026-11-10; Pixlift's 45858f5.
+func answersForItself() -> Bool {
+    typealias Lookup = @convention(c) (pid_t) -> pid_t
+    let me = getpid()
+    if let f = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "responsibility_get_pid_responsible_for_pid") {   // RTLD_DEFAULT
+        let r = unsafeBitCast(f, to: Lookup.self)(me)
+        if r > 0 { return r == me }
+    }
+    return getppid() == 1
+}
+
 let args = CommandLine.arguments
+// --file acts only for a caller that answers for itself (Pixlift's security pass 2026-11-14): started by another program
+// as an app, it would read pictures with OCR's own folder permissions and hand their text to that program.
+if args.count > 1 && args[1] == "--file" && answersForItself() {
+    FileHandle.standardError.write(Data("--file works only from a terminal\n".utf8))
+    exit(1)
+}
 if args.count > 1 && ["--selftest", "--file"].contains(args[1]) {
     // Terminal modes for testing: never touch the clipboard.
     let sem = DispatchSemaphore(value: 0)
