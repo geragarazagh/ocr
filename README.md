@@ -8,6 +8,8 @@ Free, open source OCR app for macOS. Press a keyboard shortcut, drag over any pa
 
 Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. Signed with a Developer ID and notarized by Apple.
 
+The same recognition, on the same shortcut, is part of [Pixlift](https://github.com/geragarazagh/pixlift), which also takes screenshots, records the screen and picks colors.
+
 ![OCR in use: the first page of War and Peace with a selection around its French opening paragraph, and the text OCR returned in TextEdit, dark appearance](docs/scene.webp)
 
 ## Install
