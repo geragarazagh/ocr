@@ -16,3 +16,6 @@
 "OCR: self-test" = "OCR: самоперевірка";
 "OCR: recognition failed" = "OCR: помилка розпізнавання";
 "Check for Updates…" = "Перевірити наявність оновлень…";
+"Recording" = "Запис";
+"Cancel Recording" = "Скасування запису";
+"Already in use" = "Уже використовується";

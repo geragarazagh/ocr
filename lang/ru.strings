@@ -16,3 +16,6 @@
 "OCR: self-test" = "OCR: самопроверка";
 "OCR: recognition failed" = "OCR: ошибка распознавания";
 "Check for Updates…" = "Проверить наличие обновлений…";
+"Recording" = "Запись";
+"Cancel Recording" = "Отмена записи";
+"Already in use" = "Уже используется";
