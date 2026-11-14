@@ -1,0 +1,25 @@
+#!/bin/zsh
+# Off-screen tests of the built app (run ./build first; from a terminal, since --file refuses any other caller):
+# the self-test card, and Copy Text against barcodes through --file, which prints and never touches the clipboard.
+set -e
+cd "${0:A:h}"
+b=$PWD/OCR.app/Contents/MacOS/OCR
+[ -x $b ] || { echo "Run ./build first"; exit 1; }
+tmp=$(mktemp -d); trap 'rm -rf $tmp' EXIT
+failures=0
+check() { if [ "$1" = ok ]; then echo PASS "$2"; else echo FAIL "$2"; failures=$((failures + 1)); fi }
+payload=https://example.com/not-what-was-selected
+
+r=$($b --selftest); [[ $r = ok* ]] && s=ok || s=no; check $s "self-test card: $r"
+
+# Copy Text: visible text wins over a barcode in the same area; a barcode alone gives its payload. The QR is drawn at
+# 2 % contrast (250 on 255), which Vision still decodes (Pixlift's security pass 2026-11-14).
+swiftc -O -o $tmp/pictures tests/pictures.swift
+$tmp/pictures $tmp
+r=$($b --file $tmp/mixed.png 2>/dev/null)
+[[ $r = *"brew install"* && $r != *example.com* ]] && s=ok || s=no; check $s "text beside a faint QR: the text (${r//$'\n'/ / })"
+r=$($b --file $tmp/faint.png 2>/dev/null); [ "$r" = $payload ] && s=ok || s=no; check $s "a faint QR alone: its payload ($r)"
+r=$($b --file $tmp/solid.png 2>/dev/null); [ "$r" = $payload ] && s=ok || s=no; check $s "a QR alone: its payload ($r)"
+
+[ $failures = 0 ] || { echo "$failures failed"; exit 1; }
+echo Done
