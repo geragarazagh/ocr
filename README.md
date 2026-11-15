@@ -1,12 +1,10 @@
-English · [Українська](README_UA.md) · [Русский](README_RU.md)
-
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/icon-dark.png"><img src="docs/icon.png" width="128" alt="OCR icon"></picture>
 
 # OCR (Optical Character Recognition) for Mac
 
 Free, open source OCR app for macOS. Press a keyboard shortcut, drag over any part of the screen, and the text in that area goes to the clipboard. If the area holds a QR code or another barcode, what it encodes goes to the clipboard instead.
 
-Apple silicon, macOS 13 or later. Interface in English, Ukrainian and Russian. Signed with a Developer ID and notarized by Apple.
+Apple silicon, macOS 13 or later. Signed with a Developer ID and notarized by Apple.
 
 The same recognition, on the same shortcut, is part of [Pixlift](https://github.com/geragarazagh/pixlift), which also takes screenshots, records the screen and picks colors.
 
@@ -118,7 +116,6 @@ This command prints the text of pictures instead of copying it:
 - Requires: Apple silicon, macOS 13 or later.
 - Permissions: Screen Recording. Network: only the update check.
 - Signed with a Developer ID and notarized by Apple.
-- Interface: English, Ukrainian, Russian, from the language of macOS.
 - Code: Swift with AppKit and Vision, about 1,100 lines, and the Sparkle framework for updates.
 - License: MIT. Sparkle is MIT too; its license comes with the app and is in `THIRD-PARTY-LICENSES.md`.
 
