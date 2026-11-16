@@ -2,7 +2,7 @@
 
 # OCR (Optical Character Recognition) for Mac
 
-Free, open source OCR app for macOS. Press a keyboard shortcut, drag over any part of the screen, and the text in that area goes to the clipboard. If the area holds a QR code or another barcode, what it encodes goes to the clipboard instead.
+Free, open source OCR app for macOS. Press a keyboard shortcut, drag over any part of the screen, and the text in that area goes to the clipboard. An area with no text in it gives what its QR code or other barcode encodes.
 
 Apple silicon, macOS 13 or later. Signed with a Developer ID and notarized by Apple.
 
@@ -36,7 +36,7 @@ OCR reads text that can’t be selected: pictures, scanned PDFs, video frames, a
 - Vision reads it at the accurate level with language correction on; without correction Russian turns into noise. On macOS 15 and later through the Swift `RecognizeTextRequest`, on 13 and 14 through `VNRecognizeTextRequest`.
 - The picture is read enlarged 1.5 times, which gave the fewest errors on code and small text, and also at its own size; that reading wins only if it found clearly more text.
 - Pictures larger than 2000 x 1300 pixels are also read in tiles: Vision shrinks big pictures and loses small lines and first letters.
-- If the area holds a QR code or another barcode (`VNDetectBarcodesRequest`), what it encodes is copied instead of the text.
+- What a QR code or another barcode encodes (`VNDetectBarcodesRequest`) is copied only from an area with no text; where there is text, the text is copied.
 - Vision compiles its model once for each program. OCR does it at launch and checks the result on a known test card; a bad compile is removed and made again, because it can silently drop whole lines.
 - At most two readings run at once: Vision blocks a thread while it works, and more at once can hang a Mac with few cores.
 
