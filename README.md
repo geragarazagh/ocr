@@ -110,7 +110,7 @@ This command prints the text of pictures instead of copying it:
 
 ### Details
 
-- Version: 0.3.
+- Version: 0.4.
 - Bundle ID: `com.geragaraza.ocr`.
 - Download: `OCR.dmg`, 1.6 MB.
 - Requires: Apple silicon, macOS 13 or later.
