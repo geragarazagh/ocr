@@ -638,35 +638,7 @@ func answersForItself() -> Bool {
 }
 
 let args = CommandLine.arguments
-// --file acts only for a caller that answers for itself (Pixlift's security pass 2026-11-14): started by another program
-// as an app, it would read pictures with OCR's own folder permissions and hand their text to that program.
-if args.count > 1 && args[1] == "--file" && answersForItself() {
-    FileHandle.standardError.write(Data("--file works only from a terminal\n".utf8))
-    exit(1)
-}
-if args.count > 1 && ["--selftest", "--file"].contains(args[1]) {
-    // Terminal modes for testing: never touch the clipboard.
-    let sem = DispatchSemaphore(value: 0)
-    Task.detached {
-        if args[1] == "--selftest" {
-            let t0 = Date()
-            let engine = Engine(); await engine.warmUp()
-            print(await engine.failure ?? "ok", String(format: "%.1fs", Date().timeIntervalSince(t0)))
-        } else {
-            for path in args.dropFirst(2) {
-                guard let src = CGImageSourceCreateWithURL(URL(fileURLWithPath: path) as CFURL, nil),
-                      let img = CGImageSourceCreateImageAtIndex(src, 0, nil) else { print("unreadable: \(path)"); continue }
-                let t0 = Date()
-                if args.count > 3 { print("==> \(path)") }
-                do { print(try await textFor(img)) } catch { print("error: \(error)") }
-                FileHandle.standardError.write(Data(String(format: "%@ %.2fs\n", path, Date().timeIntervalSince(t0)).utf8))
-            }
-        }
-        sem.signal()
-    }
-    sem.wait()
-    exit(0)
-}
+_ = MainActor.assumeIsolated { runOCRCLI(args) }
 
 MainActor.assumeIsolated {
     let app = NSApplication.shared
