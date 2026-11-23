@@ -12,7 +12,9 @@ import AppKit
 private let ocrCliName = "ocr-cli"
 
 private let ocrAppBundle: Bundle = {
-    let real = URL(fileURLWithPath: CommandLine.arguments[0]).resolvingSymlinksInPath()
+    // executableURL, not argv[0]: run by name from PATH (the Homebrew symlink) argv[0] is the bare name, and the bundle
+    // three levels above it is the current folder's, not the app's (measured 2026-11-23: version 0, settings unread).
+    let real = (Bundle.main.executableURL ?? URL(fileURLWithPath: CommandLine.arguments[0])).resolvingSymlinksInPath()
     let appURL = real.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     return Bundle(url: appURL) ?? .main
 }()
