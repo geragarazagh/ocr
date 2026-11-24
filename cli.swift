@@ -120,7 +120,10 @@ private func runFiles(_ paths: [String], quiet: Bool) -> Never {
         if answersForItself() { ocrFail("\(ocrCliName) works only from a terminal") }
         runFiles(Array(rest.dropFirst()), quiet: true)
     default:
-        if !first.hasPrefix("-") && (named || FileManager.default.fileExists(atPath: first)) {
+        // A bare argument from a terminal or script is a file, found or not: a missing one is an error, never a launch
+        // of the app's window (2026-11-24: `OCR missing.png` from a terminal opened the GUI and its first-launch window).
+        // Started as an app (LaunchServices, a login item) it is not ours to read: that goes on to the GUI below.
+        if !first.hasPrefix("-") && (named || !answersForItself()) {
             if answersForItself() { ocrFail("\(ocrCliName) works only from a terminal") }
             var quiet = false, files: [String] = []
             for a in rest {
