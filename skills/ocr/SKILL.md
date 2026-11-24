@@ -27,7 +27,7 @@ If neither exists, tell the user how to install it (`brew install geragarazagh/t
    ocr-cli -q screenshot.png
    ocr-cli -q page1.png page2.png
    ```
-   (When invoking the app binary directly without the `ocr-cli` symlink, pass `--file` or `-q`: `/Applications/OCR.app/Contents/MacOS/OCR -q screenshot.png`.)
+   The app binary itself takes the same arguments: `/Applications/OCR.app/Contents/MacOS/OCR -q screenshot.png`. Called by that path (not as `ocr-cli`), a bare argument counts as a file only when it exists; pass `--file` or `-q` to get an error for a missing one.
 2. **Run Vision self-test** (verifies local model cache health):
    ```sh
    ocr-cli --selftest
