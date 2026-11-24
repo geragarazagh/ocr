@@ -11,14 +11,15 @@ Runs Apple Vision offline text and QR-code recognition on local image files via 
 
 ## Locate the CLI
 
-Check in order; use the first that exits 0:
+Check in order; use the first that exits 0. Use `--help`, never `--version`, and read the app's version from its Info.plist before running its binary: OCR before 0.5 has no command line at all, so it takes every flag (`--help` and `--version` alike) as a plain start and opens its window instead of failing.
 
 ```sh
-ocr-cli --version
-/Applications/OCR.app/Contents/MacOS/OCR --version
+ocr-cli --help
+defaults read /Applications/OCR.app/Contents/Info CFBundleShortVersionString
+/Applications/OCR.app/Contents/MacOS/OCR --help
 ```
 
-If neither exists, tell the user how to install it (`brew install geragarazagh/tap/ocr`) and stop.
+`ocr-cli` exists only in versions that have the command line, so it is safe to try first. Run the third line only if the second prints 0.5 or newer; if it prints an older version, tell the user once to update OCR (Check for Updates in its menu, or `brew upgrade --cask geragarazagh/tap/ocr`) and stop. If none works, tell the user how to install it (`brew install geragarazagh/tap/ocr`) and stop.
 
 ## Common tasks
 
