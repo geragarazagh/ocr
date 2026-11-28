@@ -45,7 +45,9 @@ func alnum(_ lines: [Line]) -> Int {
     lines.map(\.text).joined().unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) }.count
 }
 
-let ciContext = CIContext()
+// No cached intermediates, and the caches cleared after each press (Engine.run): a 12 000 px picture upscaled 1.5 x left
+// Core Image's buffers behind, and the app sat at 750 MB-1.5 GB after a burst of captures (stress matrix 2026-11-27).
+let ciContext = CIContext(options: [.cacheIntermediates: false])
 
 func upscaled(_ image: CGImage, _ scale: CGFloat) -> CGImage {
     let f = CIFilter(name: "CILanczosScaleTransform")!
@@ -550,6 +552,7 @@ actor Engine {
     func run() async -> Result<String, Error> {
         if !ready { await warmUp() }
         guard let image = await captureSelection() else { return .success("") }
+        defer { ciContext.clearCaches() }
         do { return .success(try await textFor(image)) }
         catch {
             do { return .success(try await textFor(image)) } catch { return .failure(error) }
@@ -604,7 +607,9 @@ struct Message: Error, CustomStringConvertible { let description: String }
         busy = true
         Task {
             let result = await engine.run()
-            busy = false
+            // Free again only once the alert below is closed: a hot key pressed while it was open ran inside its modal
+            // loop, started another capture and stacked alert on alert (stress matrix 2026-11-27, macOS 27: 3 s hangs).
+            defer { busy = false }
             switch result {
             case .success(let text) where text.isEmpty: break
             case .success(let text):

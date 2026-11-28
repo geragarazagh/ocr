@@ -128,6 +128,9 @@ final class AppIconView: NSImageView {
     let cancelButton = NSButton(title: "", target: nil, action: nil)
     let loginSwitch = NSSwitch()
     let status = NSTextField(labelWithString: "")
+    // The monitor's token is kept: thrown away, AppKit's observer is unreachable and `leaks` reports it (stress matrix
+    // 2026-11-27). The window lives as long as the app, so it is never removed.
+    private var keyMonitor: Any?
 
     init(name: String, github: String, defaultShortcut: Shortcut, defaultCancel: Shortcut? = nil, extra: NSView? = nil, release: (() -> Void)? = nil, action: @escaping () -> Void) {
         self.extra = extra
@@ -154,7 +157,7 @@ final class AppIconView: NSImageView {
 
         build()
         _ = Updates.shared   // starts the daily check
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] e in
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] e in
             guard let self else { return e }
             return self.keyDown(e)
         }
@@ -268,10 +271,21 @@ final class AppIconView: NSImageView {
         keyButton.state = .off
         if let cancelKey { cancelButton.title = title(cancelKey); cancelButton.state = .off }
         status.stringValue = ""
-        loginSwitch.state = login.status == .enabled ? .on : .off
+        refreshLogin()
     }
 
-    func windowDidBecomeKey(_ n: Notification) { loginSwitch.state = login.status == .enabled ? .on : .off }
+    func windowDidBecomeKey(_ n: Notification) { refreshLogin() }
+
+    /// `status` is a synchronous XPC call to smd: on the main thread it held the window up to 7.7 s in a test machine
+    /// each time it showed or became key (stress matrix 2026-11-27; the same fault in HoldQ, STT and Retyper). Asked off
+    /// the main thread, the switch set after.
+    func refreshLogin() {
+        let plist = "\(Bundle.main.bundleIdentifier ?? "").login.plist"   // the same agent as `login`, made where it is asked
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let on = SMAppService.agent(plistName: plist).status == .enabled
+            DispatchQueue.main.async { self?.loginSwitch.state = on ? .on : .off }
+        }
+    }
     func windowDidResignKey(_ n: Notification) { cancelRecording() }
     func windowWillClose(_ n: Notification) { cancelRecording() }
 
